@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Regex trainer</h1>
+  <ul>
+    {% if get_username() %}
+      <li><span>Kirjautunut tunnuksella <b>{{ get_username() }}</b></span>
+      <li><a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
+    {% else %}
+      <li><a href="{{ url_for('register') }}">Rekisteröidy</a>
+      <li><a href="{{ url_for('login') }}">Kirjaudu sisään</a>
+    {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  <div class="main">
+    {% block content %}{% endblock %}
+  </div>
+  <br />
+  <a href="/">Kotisivulle</a>
+  {% if get_status() >= 2 %}
+    <a href={{ url_for('admin') }}>Hallintapaneeli</a>
+  {% endif %}
+</section>

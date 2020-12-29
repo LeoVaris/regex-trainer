@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ task[1] }}
+{% endblock %}
+
+{% block content %}
+<h2>Tulokset - {{ task[1] }}</h2>
+{% for result in results %}
+  Lauseke  <code>{{ result[0] }}</code> tulos <code>{{ result[1] }}</code>
+  <br />
+{% endfor %}
+<a href={{ url_for('task_info', task_id=task[0]) }}>Takaisin tehtävään</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Tehtävät
+{% endblock %}
+
+{% block content %}
+<h1>Tehtävät</h1>
+{% for task in tasks %}
+  <a href={{ url_for('task_info', task_id=task[0]) }}>{{ task[1] }}</a>
+{% endfor %}
+{% endblock %}
