@@ -22,12 +22,14 @@
   {% endfor %}
 </div>
 
-<form action={{ url_for('task_info', task_id=task[0]) }} method="post"> 
-  Vastaus: <input type="text" name="answer">
-  <input type="submit" value="Lähetä">
-</form>
 {% if get_status() >= 1 %}
+  <form action={{ url_for('task_info', task_id=task[0]) }} method="post"> 
+    Vastaus: <input type="text" name="answer">
+    <input type="submit" value="Lähetä">
+  </form>
   <a href={{ url_for('results', task_id=task[0]) }}>Palautukset</a>
+{% else %}
+  <p>Kirjaudu sisään, jotta voit lähettää vastauksen</p>
 {% endif %}
 <a href={{ url_for('task_view') }}>Tehtävälistalle</a>
 {% endblock %}

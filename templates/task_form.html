@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lisää tehtävä
+{% endblock %}
+
+{% block content %}
+<h2>Lisää tehtävä</h2>
+<form action="/admin/create_task" method="post">
+  Tehtävän nimi: <input type="text" name="name">
+  <br />
+  <label for="description">Tehtävänanto (voit käyttää html-tägejä sekä code-tägiä):</label>
+  <br />
+  <textarea id="description" name="description" rows="10" cols="100"></textarea>
+  <br />
+  <h3>Testit</h3>
+  <p>Lisää alle testit, jokainen omalle riville. Kaksi ylintä testiä näytetään esimerkkeinä</p>
+  <label for="accept">Merkkijonot, jotka lausekkeen tulisi hyväksyä:</label>
+  <br />
+  <textarea id="accept" name="accept" rows="7" cols="50"></textarea>
+  <br />
+  <label for="reject">Merkkijonot, jotka lausekkeen tulisi hylätä:</label>
+  <br />
+  <textarea id="reject" name="reject" rows="7" cols="50"></textarea>
+  <br />
+  <input type="submit" value="Lisää tehtävä">
+</form>
+{% endblock %}

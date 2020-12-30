@@ -53,6 +53,11 @@ def get_data(user_id):
   result = db.session.execute(query, {"id": user_id})
   return result.fetchone()
 
+def get_users():
+  query = "SELECT * FROM users ORDER BY status DESC"
+  result = db.session.execute(query)
+  return result.fetchall()
+
 def get_username():
   res = get_data(user_id())
   if res == None:
@@ -64,6 +69,11 @@ def get_status():
   if res == None:
     return 0
   return res[3]
+
+def update_status(user_id, status):
+  query = "UPDATE users SET status=:status WHERE id=:id"
+  db.session.execute(query, {"id": user_id, "status": status})
+  db.session.commit()
 
 def is_admin():
   return get_status() >= 2

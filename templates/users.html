@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin
+{% endblock %}
+
+{% block content %}
+<h2>Käyttäjät</h2>
+<table>
+<thead>
+  <tr>
+    <th>
+      käyttäjänimi
+    </th>
+    <th>
+      status
+    </th>
+  </tr>
+</thead>
+<tbody>
+  {% for user in user_list %}
+    <tr>
+      <th>
+        <a href={{ url_for('manage_user', user_id=user[0]) }}>{{ user[1] }}</a>
+      </th>
+      <th>
+        {% if user[3] == 1 %} 
+          opiskelija 
+        {% elif user[3] == 2 %}
+          opettaja
+        {% else %}
+          admin
+        {% endif %}
+      </th>
+      <!--{{ user[1] }} status: 
+      {% if user[3] == 1 %} 
+        opiskelija 
+      {% elif user[3] == 2 %}
+        opettaja
+      {% else %}
+        admin
+      {% endif %}
+      <a href={{ url_for('manage_user', user_id=user[0]) }}>lisätiedot</a>-->
+    </tr>
+  {% endfor %}
+</tbody>
+
+</table>
+
+{% endblock %}

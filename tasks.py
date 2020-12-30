@@ -41,8 +41,8 @@ def submit(answer, task_id, user_id):
   return return_value
 
 def create_submission(user_id, task_id, answer, result):
-  query = "INSERT INTO submissions (user_id, task_id, submission, result) "
-  query += "VALUES (:user_id, :task_id, :submission, :result)"
+  query = "INSERT INTO submissions (user_id, task_id, submission, result, sent_at) "
+  query += "VALUES (:user_id, :task_id, :submission, :result, NOW())"
 
   variables = {}
   variables["user_id"] = user_id
@@ -52,7 +52,52 @@ def create_submission(user_id, task_id, answer, result):
   db.session.execute(query, variables)
   db.session.commit()
 
+def get_all_submissions():
+  query = "SELECT S.id, S.submission, S.result, S.sent_at, T.name, U.username FROM submissions S, tasks T, users U "
+  query += "WHERE S.task_id = T.id AND S.user_id = U.id"
+  result = db.session.execute(query)
+  ret = []
+  for i, res in enumerate(result):
+    ret.append((i + 1, res))
+  return reversed(ret)
+
+def get_submissions(user_id):
+  query = "SELECT id, submission, result, sent_at FROM submissions WHERE user_id=:user_id"
+  result = db.session.execute(query, {"user_id": user_id})
+  ret = []
+  for i, res in enumerate(result):
+    ret.append((i + 1, res))
+  return reversed(ret)
+
+def get_result(result_id):
+  query = "SELECT submission, result, sent_at, task_id, user_id FROM submissions WHERE id=:result_id"
+  result = db.session.execute(query, {"result_id": result_id})
+  return result.fetchone()
+
 def get_results(user_id, task_id):
-  query = "SELECT submission, result FROM submissions WHERE user_id=:user_id AND task_id=:task_id"
+  query = "SELECT id, submission, result, sent_at FROM submissions WHERE user_id=:user_id AND task_id=:task_id"
   result = db.session.execute(query, {"user_id": user_id, "task_id": task_id})
-  return result.fetchall()
+  ret = []
+  for i, res in enumerate(result):
+    ret.append((i + 1, res))
+  return reversed(ret)
+
+def create_task(task_name, description, accept, reject):
+  accept = accept.split("\n")
+  reject = reject.split("\n")
+
+  query = "INSERT INTO tasks (name, task_info) VALUES (:task_name, :description) RETURNING id"
+  result = db.session.execute(query, {"task_name": task_name, "description": description})
+  db.session.commit()
+  task_id = result.fetchone()[0]
+  query = "INSERT INTO tests (task_id, data, accept) VALUES (:task_id, :test, TRUE)"
+  for acc in accept:
+    acc = acc.strip()
+    db.session.execute(query, {"task_id": task_id, "test": acc})
+    db.session.commit()
+  query = "INSERT INTO tests (task_id, data, accept) VALUES (:task_id, :test, FALSE)"
+  for rej in reject:
+    rej = rej.strip()
+    db.session.execute(query, {"task_id": task_id, "test": rej})
+    db.session.commit()
+
