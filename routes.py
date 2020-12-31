@@ -138,7 +138,9 @@ def modify_task(task_id):
   task_data = tasks.get_task(task_id)
   if task_data == None:
     return redirect("/tasks")
-  accept, reject = tasks.get_tests_id(task_id)
+  accept, reject = tasks.get_tests(task_id)
+  accept = '\n'.join(accept)
+  reject = '\n'.join(reject)
   return render_template("edit_form.html", task=task_data, accept=accept, reject=reject)
 
 @app.route("/tasks/<task_id>/edit_name", methods=["POST"])
@@ -155,6 +157,15 @@ def edit_description(task_id):
     return redirect("/tasks")
   description = request.form["description"]
   tasks.edit_description(task_id, description)
+  return redirect(url_for('modify_task', task_id=task_id))
+
+@app.route("/tasks/<task_id>/edit_tests", methods=["POST"])
+def edit_tests(task_id):  
+  if users.get_status() <= 1:
+    return redirect("/tasks")
+  accept = request.form["accept"]
+  reject = request.form["reject"]
+  tasks.edit_tests(task_id, accept, reject)
   return redirect(url_for('modify_task', task_id=task_id))
 
 @app.route("/tasks/<task_id>/edit_tests/<test_id>")

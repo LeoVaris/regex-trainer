@@ -25,18 +25,6 @@ def get_tests(task_id):
       reject.append(data)
   return (accept, reject)
 
-def get_tests_id(task_id):
-  query = "SELECT id, data, accept FROM tests WHERE task_id=:task_id"
-  result = db.session.execute(query, {"task_id": task_id})
-  accept = []
-  reject = []
-  for id, data, acc in result:
-    if acc:
-      accept.append((id, data))
-    else:
-      reject.append((id, data))
-  return (accept, reject)
-
 def submit(answer, task_id, user_id):
   query = "SELECT data, accept FROM tests WHERE task_id=:task_id"
   result = db.session.execute(query, {"task_id": task_id})
@@ -98,26 +86,28 @@ def get_results(user_id, task_id):
   return reversed(ret)
 
 def create_task(task_name, description, accept, reject):
-  accept = accept.split("\n")
-  reject = reject.split("\n")
-
   query = "INSERT INTO tasks (name, task_info) VALUES (:task_name, :description) RETURNING id"
   result = db.session.execute(query, {"task_name": task_name, "description": description})
   db.session.commit()
   task_id = result.fetchone()[0]
+  add_tests(task_id, accept, reject)
+
+def add_tests(task_id, accept, reject):
+  accept = accept.split("\n")
+  reject = reject.split("\n")
   query = "INSERT INTO tests (task_id, data, accept) VALUES (:task_id, :test, TRUE)"
-  for acc in accept:
-    acc = acc.strip()
-    if acc == "":
+  for test in accept:
+    test = test.strip()
+    if test == "":
       continue
-    db.session.execute(query, {"task_id": task_id, "test": acc})
+    db.session.execute(query, {"task_id": task_id, "test": test})
     db.session.commit()
   query = "INSERT INTO tests (task_id, data, accept) VALUES (:task_id, :test, FALSE)"
-  for rej in reject:
-    rej = rej.strip()
-    if rej == "":
+  for test in reject:
+    test = test.strip()
+    if test == "":
       continue
-    db.session.execute(query, {"task_id": task_id, "test": rej})
+    db.session.execute(query, {"task_id": task_id, "test": test})
     db.session.commit()
 
 def edit_name(task_id, name):
@@ -125,9 +115,13 @@ def edit_name(task_id, name):
   db.session.execute(query, {"id": task_id, "name": name})
   db.session.commit()
 
-def delete_test(test_id):
-  query = "DELETE FROM tests WHERE id=:id"
-  db.session.execute(query, {"id": test_id})
+def edit_tests(task_id, accept, reject):
+  delete_tests(task_id)
+  add_tests(task_id, accept, reject)
+
+def delete_tests(task_id):
+  query = "DELETE FROM tests WHERE task_id=:id"
+  db.session.execute(query, {"id": task_id})
   db.session.commit()
 
 def edit_description(task_id, description):

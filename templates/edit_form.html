@@ -13,42 +13,21 @@ Muokkaa tehtävää - {{ task[1] }}
   <label for="description">Tehtävänanto (voit käyttää html-tägejä sekä code-tägiä):</label>
   <br />
   <textarea id="description" name="description" rows="10" cols="100">{{ task[2] }}</textarea>
+  <br />
   <input type="submit" value="Muuta">
 </form>
 <h3>Testit</h3>
 <div>
-  <p>
-    Merkkijonot, jotka lausekkeen tulisi hyväksyä:
-  </p>
-  {% for test in accept %}
-    <div>
-      <code>
-        {{ test[1] }}
-      </code>
-      <a href={{ url_for('delete_test', test_id=test[0], task_id=task[0]) }}>poista</a>
-    </div>
-  {% endfor %}
+  <form action={{ url_for('edit_tests', task_id=task[0]) }} method="post">
+    <label for="accept">Merkkijonot, jotka lausekkeen tulisi hyväksyä:</label>
+    <br />
+    <textarea id="accept" name="accept" rows="7" cols="50">{{ accept }}</textarea>
+    <br />
+    <label for="reject">Merkkijonot, jotka lausekkeen tulisi hylätä:</label>
+    <br />
+    <textarea id="reject" name="reject" rows="7" cols="50">{{ reject }}</textarea>
+    <br />
+    <input type="submit" value="Muuta">
+  </form>
 </div>
-<div>
-  <p>
-    Merkkijonot, jotka lausekkeen tulisi hylätä:
-  </p>
-  {% for test in reject %}
-    <div>
-      <code>
-        {{ test[1] }}
-      </code>
-      <a href={{ url_for('delete_test', test_id=test[0], task_id=task[0]) }}>poista</a>
-    </div>
-  {% endfor %}
-</div>
-<form action={{ url_for('add_test', task_id=task[0]) }} method="post">
-  Lisää testi: <input type="text" name="test">
-  <select id="judge" name="judge">
-    <option value="1">Lausekkeen tulisi hyväksyä</option>
-    <option value="0">Lausekkeen tulisi hylätä</option>
-  </select>
-  <input type="submit" value="Lisää">
-</form>
-<a href={{ url_for('task_info', task_id=task[0]) }}>Takaisin tehtävään</a>
 {% endblock %}
