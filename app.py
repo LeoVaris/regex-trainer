@@ -10,9 +10,9 @@ from db import db, init_db
 import routes
 import users
 
-init_db()
+if getenv("FLASK_ENV") == "development":
+  init_db()
 users.init_admin()
 
 app.jinja_env.globals.update(get_username=users.get_username)
-#app.jinja_env.globals.update(is_admin=users.is_admin)
 app.jinja_env.globals.update(get_status=users.get_status)

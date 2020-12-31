@@ -7,6 +7,11 @@ def init_admin():
   password = getenv("ROOT_PASSWORD")
   password_hash = generate_password_hash(password)
   username = "root"
+  find_old = "SELECT * FROM users WHERE username='root'"
+  res = db.session.execute(find_old)
+  if res.fetchone() != None:
+    print("root user already added")
+    return
   query = "INSERT INTO users (username, password, status) VALUES (:username, :password, 3)"
   db.session.execute(query, {"username": username, "password": password_hash})
   db.session.commit()
