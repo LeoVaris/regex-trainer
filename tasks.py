@@ -28,29 +28,37 @@ def get_tests(task_id):
 def submit(answer, task_id, user_id):
   query = "SELECT data, accept FROM tests WHERE task_id=:task_id"
   result = db.session.execute(query, {"task_id": task_id})
-
-  prog = re.compile(answer)
-
   return_value = "OK"
+  status = 0
 
-  for data, accept in result:
-    res = prog.fullmatch(data)
-    if (accept and res == None) or (not accept and res != None):
-      return_value = data
-      break
+  if len(answer) <= 200:
+    prog = re.compile(answer)
+    for data, accept in result:
+      res = prog.fullmatch(data)
+      if (accept and res == None) or (not accept and res != None):
+        return_value = data
+        if accept:
+          status = 1
+        else:
+          status = 2
+        break
+  else:
+    return_value = "Vastauksen maksimipituus on 200 merkkiä"
+    status = 3
 
-  result_id = create_submission(user_id, task_id, answer, return_value)
+  result_id = create_submission(user_id, task_id, answer, return_value, status)
   return result_id
 
-def create_submission(user_id, task_id, answer, result):
-  query = "INSERT INTO submissions (user_id, task_id, submission, result, sent_at) "
-  query += "VALUES (:user_id, :task_id, :submission, :result, NOW()) RETURNING id"
+def create_submission(user_id, task_id, answer, result, status):
+  query = "INSERT INTO submissions (user_id, task_id, submission, result, sent_at, status) "
+  query += "VALUES (:user_id, :task_id, :submission, :result, NOW(), :status) RETURNING id"
 
   variables = {}
   variables["user_id"] = user_id
   variables["task_id"] = task_id
   variables["submission"] = answer
   variables["result"] = result
+  variables["status"] = status
   result = db.session.execute(query, variables)
   db.session.commit()
   return result.fetchone()[0]
@@ -78,7 +86,7 @@ def get_result(result_id):
   return result.fetchone()
 
 def get_results(user_id, task_id):
-  query = "SELECT id, submission, result, sent_at FROM submissions WHERE user_id=:user_id AND task_id=:task_id"
+  query = "SELECT id, submission, result, sent_at, status FROM submissions WHERE user_id=:user_id AND task_id=:task_id"
   result = db.session.execute(query, {"user_id": user_id, "task_id": task_id})
   ret = []
   for i, res in enumerate(result):

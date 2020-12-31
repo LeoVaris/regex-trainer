@@ -29,5 +29,6 @@ CREATE TABLE submissions (
   task_id INTEGER REFERENCES tasks ON DELETE CASCADE,
   submission TEXT,
   result TEXT,
-  sent_at TIMESTAMP
+  sent_at TIMESTAMP,
+  status INTEGER
 );

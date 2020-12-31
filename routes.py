@@ -49,7 +49,8 @@ def task_info(task_id):
   task_data = tasks.get_task(task_id)
   if request.method == "GET":
     accept, reject = tasks.get_tests(task_id)
-    return render_template("task.html", task=task_data, accept=accept[:2], reject=reject[:2])
+    results = tasks.get_results(users.user_id(), task_id)
+    return render_template("task.html", task=task_data, accept=accept[:2], reject=reject[:2], results=results)
   else:
     user_id = users.user_id()
     if user_id == -1:

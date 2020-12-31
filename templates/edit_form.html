@@ -30,4 +30,5 @@ Muokkaa tehtävää - {{ task[1] }}
     <input type="submit" value="Muuta">
   </form>
 </div>
+<a href={{ url_for('task_info', task_id=task[0]) }}>Julkiseen näkymään</a>
 {% endblock %}
