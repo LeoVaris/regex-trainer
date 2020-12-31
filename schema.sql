@@ -18,7 +18,7 @@ CREATE TABLE tasks (
 
 CREATE TABLE tests (
   id SERIAL PRIMARY KEY,
-  task_id INTEGER REFERENCES tasks,
+  task_id INTEGER REFERENCES tasks ON DELETE CASCADE,
   data TEXT,
   accept BOOLEAN
 );
@@ -26,12 +26,13 @@ CREATE TABLE tests (
 CREATE TABLE submissions (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users,
-  task_id INTEGER REFERENCES tasks,
+  task_id INTEGER REFERENCES tasks ON DELETE CASCADE,
   submission TEXT,
   result TEXT,
   sent_at TIMESTAMP
 );
 
+-- testidataa
 INSERT INTO tasks (name, task_info) VALUES ('Tehtävä 1', 'Toteuta lauseke, joka hyväksyy kaikki merkkijonot, jotka sisältävät ainoastaan merkkiä <code>a</code>');
 INSERT INTO tests (task_id, data, accept) VALUES (1, 'aaaa', TRUE);
 INSERT INTO tests (task_id, data, accept) VALUES (1, 'aa', TRUE);

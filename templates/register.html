@@ -6,6 +6,9 @@ Rekisteröidy
 
 {% block content %}
 <h3>Rekisteröidy</h3>
+{% if message %}
+  <b>{{ message }}</b>
+{% endif %}
 <form action="/register" method="post">
   Tunnus: <input type="text" name="username">
   <p>

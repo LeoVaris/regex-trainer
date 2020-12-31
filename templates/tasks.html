@@ -8,5 +8,17 @@ Tehtävät
 <h1>Tehtävät</h1>
 {% for task in tasks %}
   <a href={{ url_for('task_info', task_id=task[0]) }}>{{ task[1] }}</a>
+  {% if get_status() >= 1 %}
+    {% if task[2] != -1 %}
+      Ratkaistu {{ task[2] }} merkillä
+    {% else %}
+      Kesken
+    {% endif %}
+  {% endif %}
+  {% if get_status() >= 2 %}
+  <a href={{ url_for('modify_task', task_id=task[0]) }}>Muokkaa</a>
+  <a href={{ url_for('delete_task', task_id=task[0]) }} onclick="return confirm('Oletko varma?')">Poista</a>
+  {% endif %}
+  <br /> 
 {% endfor %}
 {% endblock %}

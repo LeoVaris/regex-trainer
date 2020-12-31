@@ -6,6 +6,9 @@ Kirjaudu sisään
 
 {% block content %}
 <h3>Kirjaudu sisään</h3>
+{% if message %}
+  <b>{{ message }}</b>
+{% endif %}
 <form action="/login" method="post">
   Tunnus: <input type="text" name="username">
   <p>
