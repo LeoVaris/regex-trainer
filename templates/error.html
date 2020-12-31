@@ -6,7 +6,7 @@
 
 {% block content %}
 <h1>Virhe</h1>
-<p>{{ message }}</p>
+<code>{{ message }}</code>
 <br />
 <a href={{ url_for('task_info', task_id=task[0]) }}>Takaisin tehtävään</a>
 <a href={{ url_for('task_view') }}>Tehtävälistalle</a>

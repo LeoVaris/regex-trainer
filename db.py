@@ -2,13 +2,12 @@ from app import app
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 
-#import users
-
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 db = SQLAlchemy(app)
 
 # init database
-
+# below code from stackoverflow
+# resets db and inserts dev data
 def init_db():
   sql_file = open("schema.sql","r")
 
@@ -40,6 +39,3 @@ def init_db():
         finally:
           sql_command = ""
   print("Added example data")
-
-#res = db.session.execute("SELECT * FROM users")
-#print(res.fetchall())

@@ -3,10 +3,12 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import getenv
 
+# initilizes root user
 def init_admin():
   password = getenv("ROOT_PASSWORD")
   password_hash = generate_password_hash(password)
   username = "root"
+  # check if already exists, this code runs on every reset
   find_old = "SELECT * FROM users WHERE username='root'"
   res = db.session.execute(find_old)
   if res.fetchone() != None:
@@ -34,7 +36,7 @@ def logout():
   del session["user_id"]
 
 def register(username, password):
-  # tarkista onko jo sama käyttäjä
+  # check if username is taken
   query = "SELECT * FROM users WHERE username=:username"
   result = db.session.execute(query, {"username": username})
   if result.fetchone() != None:
@@ -79,9 +81,6 @@ def update_status(user_id, status):
   query = "UPDATE users SET status=:status WHERE id=:id"
   db.session.execute(query, {"id": user_id, "status": status})
   db.session.commit()
-
-def is_admin():
-  return get_status() >= 2
 
 def logout():
   del session["user_id"]
