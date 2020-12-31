@@ -108,11 +108,15 @@ def create_task(task_name, description, accept, reject):
   query = "INSERT INTO tests (task_id, data, accept) VALUES (:task_id, :test, TRUE)"
   for acc in accept:
     acc = acc.strip()
+    if acc == "":
+      continue
     db.session.execute(query, {"task_id": task_id, "test": acc})
     db.session.commit()
   query = "INSERT INTO tests (task_id, data, accept) VALUES (:task_id, :test, FALSE)"
   for rej in reject:
     rej = rej.strip()
+    if rej == "":
+      continue
     db.session.execute(query, {"task_id": task_id, "test": rej})
     db.session.commit()
 
