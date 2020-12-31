@@ -7,7 +7,8 @@ Admin
 {% block content %}
 <h2>Hallintapaneeli</h2>
 <a href={{ url_for('user_list') }}>Käyttäjät</a> <br />
-<a href={{ url_for('create_task') }}>Lisää tehtävä</a>
+<a href={{ url_for('create_task') }}>Lisää tehtävä</a> <br />
+<a href={{ url_for('create_instruction') }}>Lisää ohje</a>
 <h2>Lähetykset</h2>
 <table>
 <thead>
@@ -27,20 +28,8 @@ Admin
     <th>
       <a href={{ url_for('admin_result', result_id=result[1][0]) }}>>></a>
     </th>
-    <!--{{ result[0] }}. <a href={{ url_for('admin_result', result_id=result[1][0]) }}>{{ result[1][3].strftime("%m/%d/%Y, %H:%M:%S") }}</a> 
-    <br />
-    Lähettäjä: <b>{{ result[1][5] }}</b> tehtävä: {{ result[1][4] }}-->
   </tr>
   {% endfor %}
 </tbody>
 </table>
-<!--
-{% for result in results %}
-<div>
-  {{ result[0] }}. <a href={{ url_for('admin_result', result_id=result[1][0]) }}>{{ result[1][3].strftime("%m/%d/%Y, %H:%M:%S") }}</a> 
-  <br />
-  Lähettäjä: <b>{{ result[1][5] }}</b> tehtävä: {{ result[1][4] }}
-</div>
-{% endfor %}
--->
 {% endblock %}

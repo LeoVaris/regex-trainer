@@ -47,10 +47,15 @@ def task_view():
 @app.route("/tasks/<task_id>", methods=["GET", "POST"])
 def task_info(task_id):
   task_data = tasks.get_task(task_id)
+  if task_data == None:
+    return redirect("/tasks")
   if request.method == "GET":
-    accept, reject = tasks.get_tests(task_id)
-    results = tasks.get_results(users.user_id(), task_id)
-    return render_template("task.html", task=task_data, accept=accept[:2], reject=reject[:2], results=results)
+    if task_data[3] == 1:
+      accept, reject = tasks.get_tests(task_id)
+      results = tasks.get_results(users.user_id(), task_id)
+      return render_template("task.html", task=task_data, accept=accept[:2], reject=reject[:2], results=results)
+    else:
+      return render_template("instruction.html", task=task_data)
   else:
     user_id = users.user_id()
     if user_id == -1:
@@ -78,7 +83,10 @@ def result(task_id, result_id):
   if result[1] == "OK":
     return render_template("correct.html", task=task_data, ans_len=len(result[0]))
   else:
-    return render_template("wrong.html", task=task_data, test=result[1])
+    if result[5] <= 2:
+      return render_template("wrong.html", task=task_data, test=result)
+    else:
+      return render_template("error.html", task=task_data, message=result[1])
 
 @app.route("/tasks/results/<result_id>")
 def admin_result(result_id):
@@ -130,6 +138,19 @@ def create_task():
     reject = request.form["reject"]
 
     tasks.create_task(task_name, description, accept, reject)
+    return redirect("/tasks")
+
+@app.route("/admin/create_note", methods=["GET", "POST"])
+def create_instruction():
+  if users.get_status() <= 1:
+    return redirect("/")
+  if request.method == "GET":
+    return render_template("instruction_form.html")
+  else:
+    task_name = request.form["name"]
+    description = request.form["description"]
+
+    tasks.create_note(task_name, description)
     return redirect("/tasks")
 
 @app.route("/tasks/<task_id>/edit")

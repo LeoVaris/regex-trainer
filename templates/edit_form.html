@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Muokkaa tehtävää - {{ task[1] }}
+Muokkaa 
+{% if task[3] == 1 %}
+  tehtävää
+{% else %}
+  ohjetta
+{% endif %}
+- {{ task[1] }}
 {% endblock %}
 {% block content %}
-<h2>Muokkaa tehtävää: {{ task[1] }}</h2>
+<h2>Muokkaa 
+  {% if task[3] == 1 %}
+    tehtävää:
+  {% else %}
+    ohjetta:
+  {% endif %}
+  {{ task[1] }}</h2>
 <form action={{ url_for('edit_name', task_id=task[0]) }} method="post" onsubmit="window.confirm('Oletko varma?')">
   Tehtävän nimi: <input type="text" name="name" value="{{ task[1] }}">
   <input type="submit" value="Muuta">
@@ -16,6 +28,7 @@ Muokkaa tehtävää - {{ task[1] }}
   <br />
   <input type="submit" value="Muuta">
 </form>
+{% if task[3] == 1 %}
 <h3>Testit</h3>
 <div>
   <form action={{ url_for('edit_tests', task_id=task[0]) }} method="post">
@@ -30,5 +43,6 @@ Muokkaa tehtävää - {{ task[1] }}
     <input type="submit" value="Muuta">
   </form>
 </div>
+{% endif %}
 <a href={{ url_for('task_info', task_id=task[0]) }}>Julkiseen näkymään</a>
 {% endblock %}

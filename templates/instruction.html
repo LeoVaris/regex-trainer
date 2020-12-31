@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ task[1] }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <h1>{{ task[1] }}</h1>
+  {% if get_status() >= 2 %}
+    <a href={{ url_for('modify_task', task_id=task[0]) }}>Muokkaa</a>
+  {% endif %}
+  <p>{{ task[2] | safe }}</p>
+  <a href={{ url_for('task_view') }}>Tehtävälistalle</a>
+</div>
+
+{% endblock %}

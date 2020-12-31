@@ -6,7 +6,12 @@
 
 {% block content %}
 <h1>Väärin</h1>
-<p>Lausekkeesi tuotti väärän tuloksen merkkijonolla </p> <code>{{ test }}</code>
+<p>Lausekkeesi tuotti väärän tuloksen merkkijonolla </p> <code>{{ test[1] }}</code> <br />
+{% if test[5] == 1 %}
+Lausekkeen olisi pitänyt hyväksyä merkkijono, mutta se hylkäsi sen.
+{% else %}
+Lausekkeen olisi pitänyt hylätä merkkijono, mutta se hyväksyi sen.
+{% endif %}
 <br />
 <a href={{ url_for('task_info', task_id=task[0]) }}>Takaisin tehtävään</a>
 <a href={{ url_for('task_view') }}>Tehtävälistalle</a>

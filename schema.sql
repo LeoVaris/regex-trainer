@@ -13,7 +13,8 @@ CREATE TABLE users (
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
   name TEXT,
-  task_info TEXT
+  task_info TEXT,
+  type INTEGER
 );
 
 CREATE TABLE tests (

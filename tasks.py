@@ -4,7 +4,7 @@ import re
 def get_tasks(user_id):
   subquery = "(SELECT MIN(LENGTH(S.submission)) FROM submissions S "
   subquery += "WHERE S.task_id = T.id AND S.result = 'OK' AND S.user_id=:id)"
-  query = "SELECT T.id, T.name, COALESCE(" + subquery + ", -1) FROM tasks T"
+  query = "SELECT T.id, T.name, COALESCE(" + subquery + ", -1), T.type FROM tasks T"
   result = db.session.execute(query, {"id": user_id})
   return result.fetchall()
 
@@ -81,7 +81,7 @@ def get_submissions(user_id):
   return reversed(ret)
 
 def get_result(result_id):
-  query = "SELECT submission, result, sent_at, task_id, user_id FROM submissions WHERE id=:result_id"
+  query = "SELECT submission, result, sent_at, task_id, user_id, status FROM submissions WHERE id=:result_id"
   result = db.session.execute(query, {"result_id": result_id})
   return result.fetchone()
 
@@ -94,11 +94,16 @@ def get_results(user_id, task_id):
   return reversed(ret)
 
 def create_task(task_name, description, accept, reject):
-  query = "INSERT INTO tasks (name, task_info) VALUES (:task_name, :description) RETURNING id"
+  query = "INSERT INTO tasks (name, task_info, type) VALUES (:task_name, :description, 1) RETURNING id"
   result = db.session.execute(query, {"task_name": task_name, "description": description})
   db.session.commit()
   task_id = result.fetchone()[0]
   add_tests(task_id, accept, reject)
+
+def create_note(name, description):
+  query = "INSERT INTO tasks (name, task_info, type) VALUES (:task_name, :description, 2)"
+  result = db.session.execute(query, {"task_name": name, "description": description})
+  db.session.commit()
 
 def add_tests(task_id, accept, reject):
   accept = accept.split("\n")

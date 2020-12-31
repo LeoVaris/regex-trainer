@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lisää ohje
+{% endblock %}
+
+{% block content %}
+<h2>Lisää ohje</h2>
+<form action="/admin/create_note" method="post">
+  Ohjeen nimi: <input type="text" name="name">
+  <br />
+  <label for="description">Sisältö (voit käyttää html-tägejä sekä code-tägiä):</label>
+  <br />
+  <textarea id="description" name="description" rows="10" cols="100"></textarea>
+  <br />
+  <input type="submit" value="Lisää ohje">
+</form>
+{% endblock %}
