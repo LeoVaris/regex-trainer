@@ -26,15 +26,10 @@
         <code>{{s}}</code> <br />
       {% endfor %}
     </div>
-
-    {% if get_status() >= 1 %}
-      <form action={{ url_for('task_info', task_id=task[0]) }} method="post"> 
-        Vastaus: <input type="text" name="answer">
-        <input type="submit" value="Lähetä">
-      </form>
-    {% else %}
-      <p>Kirjaudu sisään, jotta voit lähettää vastauksen </p>
-    {% endif %}
+    <form action={{ url_for('task_info', task_id=task[0]) }} method="post"> 
+      Vastaus: <input type="text" name="answer">
+      <input type="submit" value="Lähetä">
+    </form>
     <a href={{ url_for('task_view') }}>Tehtävälistalle</a>
   </div>
   {% if get_status() >= 1 %}

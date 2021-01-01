@@ -23,11 +23,20 @@ def task_info(task_id):
       return render_template("instruction.html", task=task_data)
   else:
     user_id = users.user_id()
-    if user_id == -1:
-      return redirect("/login")
     answer = request.form["answer"]
-    result_id = tasks.submit(answer, task_id, user_id)
-    return redirect(url_for("result", task_id=task_id, result_id=result_id))
+    if user_id != -1:
+      result_id = tasks.submit(answer, task_id, user_id)
+      return redirect(url_for("result", task_id=task_id, result_id=result_id))
+    else:
+      result = tasks.evaluate(task_id, answer)
+      if result[0] == "OK":
+        return render_template("correct.html", task=task_data, ans_len=len(answer))
+      else:
+        if result[1] <= 2:
+          return render_template("wrong.html", task=task_data, status=result[1], test=result[0])
+        else:
+          return render_template("error.html", task=task_data, message=result[0])
+
 
 @app.route("/tasks/<task_id>/results")
 def results(task_id):
@@ -43,13 +52,13 @@ def results(task_id):
 def result(task_id, result_id):
   result = tasks.get_result(result_id)
   task_data = tasks.get_task(task_id)
-  if result == None:
+  if result == None or result[4] != users.user_id():
     return redirect("/tasks")
   if result[1] == "OK":
     return render_template("correct.html", task=task_data, ans_len=len(result[0]))
   else:
     if result[5] <= 2:
-      return render_template("wrong.html", task=task_data, test=result)
+      return render_template("wrong.html", task=task_data, status=result[1][1], test=result[1][5])
     else:
       return render_template("error.html", task=task_data, message=result[1])
 

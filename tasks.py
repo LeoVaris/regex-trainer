@@ -61,6 +61,36 @@ def submit(answer, task_id, user_id):
   result_id = create_submission(user_id, task_id, answer, return_value, status)
   return result_id
 
+def evaluate(task_id, answer):
+  query = "SELECT data, accept FROM tests WHERE task_id=:task_id"
+  result = db.session.execute(query, {"task_id": task_id})
+  return_value = "OK"
+  status = 0
+
+  if len(answer) <= 200:
+    try:
+      prog = re.compile(answer)
+      for data, accept in result:
+        res = prog.fullmatch(data)
+        if (accept and res == None) or (not accept and res != None):
+          return_value = data
+          if accept:
+            status = 1
+          else:
+            status = 2
+          break
+    except re.error as err:
+      return_value = str(err)
+      status = 3
+    except:
+      return_value = "Lausekkeen testaus aiheutti tuntemattoman virheen"
+      status = 3
+  else:
+    return_value = "Vastauksen maksimipituus on 200 merkkiä"
+    status = 3
+
+  return (return_value, status)
+
 def create_submission(user_id, task_id, answer, result, status):
   query = "INSERT INTO submissions (user_id, task_id, submission, result, sent_at, status) "
   query += "VALUES (:user_id, :task_id, :submission, :result, NOW(), :status) RETURNING id"
