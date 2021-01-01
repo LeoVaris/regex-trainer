@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <title>{% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <nav>
-  <h1>Regex trainer</h1>
+  <div class="header">
+    <h1>Regex trainer</h1>
+  </div>
   <ul>
-    {% if get_username() %}
-      <li><span>Kirjautunut tunnuksella <b>{{ get_username() }}</b></span>
-      <li><a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
-    {% else %}
-      <li><a href="{{ url_for('register') }}">Rekisteröidy</a>
-      <li><a href="{{ url_for('login') }}">Kirjaudu sisään</a>
+    <li><a href="/">Kotisivulle</a></li>
+    {% if get_status() >= 2 %}
+      <li><a href={{ url_for('admin') }}>Hallintapaneeli</a></li>
     {% endif %}
+    {% if get_username() %}
+      <li><span>Kirjautunut tunnuksella <b>{{ get_username() }}</b></span></li>
+      <li><a href="{{ url_for('logout') }}">Kirjaudu ulos</a></li>
+    {% else %}
+      <li><a href="{{ url_for('register') }}">Rekisteröidy</a></li>
+      <li><a href="{{ url_for('login') }}">Kirjaudu sisään</a></li>
+    {% endif %}
+    
   </ul>
 </nav>
 <section class="content">
@@ -21,8 +30,4 @@
     {% block content %}{% endblock %}
   </div>
   <br />
-  <a href="/">Kotisivulle</a>
-  {% if get_status() >= 2 %}
-    <a href={{ url_for('admin') }}>Hallintapaneeli</a>
-  {% endif %}
 </section>
