@@ -11,7 +11,7 @@
     <a href={{ url_for('modify_task', task_id=task[0]) }}>Muokkaa</a>
   {% endif %}
   <p>{{ task[2] | safe }}</p>
-  <a href={{ url_for('task_view') }}>Tehtävälistalle</a>
+  <a href={{ url_for('task_view') }} class="index_btn link_btn">Tehtävälistalle</a>
 </div>
 
 {% endblock %}

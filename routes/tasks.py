@@ -58,7 +58,8 @@ def result(task_id, result_id):
     return render_template("correct.html", task=task_data, ans_len=len(result[0]))
   else:
     if result[5] <= 2:
-      return render_template("wrong.html", task=task_data, status=result[1][1], test=result[1][5])
+      print(result)
+      return render_template("wrong.html", task=task_data, status=result[5], test=result[1])
     else:
       return render_template("error.html", task=task_data, message=result[1])
 

@@ -1,8 +1,35 @@
+body {
+  margin: auto;
+  max-width: 70em;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  background-color:#97caef;
+}
+
+.task {
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  border: 2px solid black;
+  max-width: 15em;
+  background-color: #5cdb95;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  left: 1em;
+}
+
+.title {
+  padding-left: 3em;
+  padding-right: 3em;
+}
+
 .main {
   padding: 1.5em 2em;
   border: 5px solid black;
   border-radius: .5em;
-  background-color: white;
+  background-color:  white;
 }
 
 .header {
@@ -11,13 +38,93 @@
   padding: 1em .5em;
   font-size: 2em;
   text-align: center;
+  border-radius: 10px;
 }
 
-body {
-  margin: auto;
-  max-width: 70em;
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  background-color: white;
+.answer_slot {
+  font-family: monospace;
+}
+
+.submit_btn {
+  background-color: rgb(192, 57, 43);
+  color: white;
+}
+
+.submit {
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: .5em;
+  background-color: #97caef;
+}
+
+.link_btn:link, .link_btn:visited {
+  background-color:rgb(192, 57, 43);
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 1em;
+}
+
+.submission {
+  padding: 5px;
+  padding-left: 1em;
+  border: 2px solid black;
+  border-radius: .5em;
+  margin: 5px;
+  text-align: left;
+}
+
+.correct {
+  background-color:#52c41a;
+}
+
+.wrong {
+  background-color:#f5222d;
+}
+
+.error {
+  background-color: gray;
+}
+
+.index_btn:link, .index_btn:visited {
+  margin-top: 10px;
+  padding: 14px 34px;
+}
+
+.login_text {
+  background-color:rgb(192, 57, 43);
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 1em;
+}
+
+.username {
+  color: black;
+}
+
+.link_btn:hover, .link_btn:active {
+  background-color: red;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
 }
 
 nav ul {
@@ -28,11 +135,6 @@ nav ul {
 
 nav li {
   display: inline-block;
-  padding: .5em;
-  background-color: gray;
-  border: 1px solid black;
-  border-radius: .5em;
-  margin: .2em;
 }
 
 .column {
@@ -41,10 +143,12 @@ nav li {
 }
 
 .left {
+  border-right: 2px solid black;
   width: 65%;
 }
 
 .right {
+  text-align: center;
   width: 35%;
 }
 

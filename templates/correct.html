@@ -7,6 +7,6 @@
 {% block content %}
 <h1>Oikein!</h1>
 <p>Ratkaisit tehtävän {{ task[1] }} {{ ans_len }} merkillä</p>
-<a href={{ url_for('task_info', task_id=task[0]) }}>Takaisin tehtävään</a>
-<a href={{ url_for('task_view') }}>Tehtävälistalle</a>
+<a href={{ url_for('task_info', task_id=task[0]) }} class="index_btn link_btn">Takaisin tehtävään</a>
+<a href={{ url_for('task_view') }} class="index_btn link_btn">Tehtävälistalle</a>
 {% endblock %}

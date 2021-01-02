@@ -13,6 +13,6 @@ Lausekkeen olisi pitänyt hyväksyä merkkijono, mutta se hylkäsi sen.
 Lausekkeen olisi pitänyt hylätä merkkijono, mutta se hyväksyi sen.
 {% endif %}
 <br />
-<a href={{ url_for('task_info', task_id=task[0]) }}>Takaisin tehtävään</a>
-<a href={{ url_for('task_view') }}>Tehtävälistalle</a>
+<a href={{ url_for('task_info', task_id=task[0]) }} class="index_btn link_btn">Takaisin tehtävään</a>
+<a href={{ url_for('task_view') }} class="index_btn link_btn">Tehtävälistalle</a>
 {% endblock %}
