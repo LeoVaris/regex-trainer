@@ -10,10 +10,10 @@ Rekisteröidy
   <b>{{ message }}</b>
 {% endif %}
 <form action="/register" method="post">
-  Tunnus: <input type="text" name="username">
+  Tunnus: <input type="text" name="username" autocomplete="username"> 
   <p>
-  Salasana: <input type="password" name="password">
+  Salasana: <input type="password" name="password" autocomplete="new-password">
   <p>
-  <input type="submit" value="Luo tunnus">
+  <input type="submit" value="Luo tunnus" class="submit_btn">
 </form>
 {% endblock %}

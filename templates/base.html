@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <body>
   <nav>
-    <div class="header">
+    <!--<div class="header">
       <h1>Regex trainer</h1>
-    </div>
+    </div>-->
     <ul>
-      <li><a href="/" class="link_btn">Kotisivulle</a></li>
+      <li><a href="/">Kotisivu</a></li>
       {% if get_status() >= 2 %}
-        <li><a href={{ url_for('admin') }} class="link_btn">Hallintapaneeli</a></li>
+        <li><a href={{ url_for('admin') }}>Hallintapaneeli</a></li>
       {% endif %}
       {% if get_username() %}
         <li><span class="login_text">Kirjautunut käyttäjänimellä <b class="username">{{ get_username() }}</b></span></li>
-        <li><a href="{{ url_for('logout') }}" class="link_btn">Kirjaudu ulos</a></li>
+        <li><a href="{{ url_for('logout') }}">Kirjaudu ulos</a></li>
       {% else %}
-        <li><a href="{{ url_for('register') }}" class="link_btn">Rekisteröidy</a></li>
-        <li><a href="{{ url_for('login') }}" class="link_btn">Kirjaudu sisään</a></li>
+        <li><a href="{{ url_for('register') }}">Rekisteröidy</a></li>
+        <li><a href="{{ url_for('login') }}">Kirjaudu sisään</a></li>
       {% endif %}
       
     </ul>

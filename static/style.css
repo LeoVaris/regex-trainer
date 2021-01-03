@@ -1,6 +1,4 @@
 body {
-  margin: auto;
-  max-width: 70em;
   font-family: 'Helvetica', 'Arial', sans-serif;
   background-color:#97caef;
 }
@@ -29,6 +27,9 @@ body {
   padding: 1.5em 2em;
   border: 5px solid black;
   border-radius: .5em;
+  margin: auto;
+  margin-top: 2em;
+  max-width: 70em;
   background-color:  white;
 }
 
@@ -46,7 +47,7 @@ body {
 }
 
 .submit_btn {
-  background-color: rgb(192, 57, 43);
+  background-color:#333;
   color: white;
 }
 
@@ -58,13 +59,13 @@ body {
 }
 
 .link_btn:link, .link_btn:visited {
-  background-color:rgb(192, 57, 43);
-  color: white;
+  background-color: white;
+  color: black;
   padding: 14px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  border-radius: 1em;
+  border: 2px solid #333;
 }
 
 .submission {
@@ -94,13 +95,11 @@ body {
 }
 
 .login_text {
-  background-color:rgb(192, 57, 43);
+  display: block;
   color: white;
-  padding: 14px 25px;
   text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
-  display: inline-block;
-  border-radius: 1em;
 }
 
 .username {
@@ -108,7 +107,8 @@ body {
 }
 
 .link_btn:hover, .link_btn:active {
-  background-color: red;
+  background-color: #333;
+  color: white;
 }
 
 a:link {
@@ -128,13 +128,29 @@ a:active {
 }
 
 nav ul {
+  list-style-type: none;
+  margin: auto;
   padding: 0;
-  margin: .5em;
-  text-align: center;
+  overflow: hidden;
+  background-color: #333;
+  max-width: 70em;
 }
 
 nav li {
-  display: inline-block;
+  float: left;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover {
+  text-decoration: none;
+  background-color: #111;
 }
 
 .column {

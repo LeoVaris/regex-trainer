@@ -10,11 +10,11 @@ Kirjaudu sisään
   <b>{{ message }}</b>
 {% endif %}
 <form action="/login" method="post">
-  Tunnus: <input type="text" name="username">
+  Tunnus: <input type="text" name="username" autocomplete="username">
   <p>
-  Salasana: <input type="password" name="password">
+  Salasana: <input type="password" name="password" autocomplete="current-password">
   <p>
-  <input type="submit" value="Kirjaudu">
+  <input type="submit" value="Kirjaudu" class="submit_btn">
 </form>
 Jos sinulla ei ole tunnusta, 
 voit luoda uuden tunnuksen 
