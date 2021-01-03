@@ -14,7 +14,7 @@
         <li><a href={{ url_for('admin') }}>Hallintapaneeli</a></li>
       {% endif %}
       {% if get_username() %}
-        <li><span class="login_text">Kirjautunut käyttäjänimellä <b class="username">{{ get_username() }}</b></span></li>
+        <li><span class="login_text">Kirjautunut käyttäjänimellä <b>{{ get_username() }}</b></span></li>
         <li><a href="{{ url_for('logout') }}">Kirjaudu ulos</a></li>
       {% else %}
         <li><a href="{{ url_for('register') }}">Rekisteröidy</a></li>
